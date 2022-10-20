@@ -2,6 +2,10 @@ import styles from '../ItemContacts/ItemContacts.module.css';
 import PropTypes from 'prop-types';
 
 export const ItemContacts = ({ contacts, filter, userDelete }) => {
+
+  const onClick = (e) => {    
+    userDelete(e.target.value)
+  }
   return (
     <>
       {contacts
@@ -17,7 +21,7 @@ export const ItemContacts = ({ contacts, filter, userDelete }) => {
               className={styles.itemBtn}
               type="button"
               value={user.id}
-              onClick={userDelete}
+              onClick={onClick}
             >
               &#215;
             </button>

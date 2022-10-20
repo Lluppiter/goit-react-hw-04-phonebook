@@ -1,42 +1,46 @@
 import styles from '../FormAddContact/FormAddContacts.module.css';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 
-const InitialFormData = { name: '', number: '' };
-
-export class FormAddContact extends Component {
-  static propTypes = {
-    addNewContact: PropTypes.func.isRequired,
+export const FormAddContact = ({addNewContact}) => {
+  const [name, setName] = useState('')
+  const [number, setNumber] = useState('')
+  
+  
+  const handleInput = ({ target: { name, value } }) => {
+     switch (name) {
+      case 'name':
+        setName(value)
+        break;
+      case ('number'):
+        setNumber(value)
+        break;
+      default:
+        break;
+    }
   };
-  state = {
-    name: '',
-    number: '',
-  };
 
-  handleInput = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  reset() {
-    this.setState({ ...InitialFormData });
+ const reset = () => {
+   setName('')
+   setNumber('')
   }
-  onSubmit = e => {
+  
+  const onSubmit = e => {
     e.preventDefault();
-    this.props.addNewContact(this.state.name, this.state.number);
-    this.reset();
+    addNewContact(name, number);
+    reset();
   };
   
-  render() {
-    return (
-      <form onSubmit={this.onSubmit} className={styles.formContacts}>
+  return (
+      <form onSubmit={onSubmit} className={styles.formContacts}>
         <div className={styles.formItem}>
           <h3 className={styles.formTitle}>Name</h3>
           <input
-            onChange={this.handleInput}
+            onChange={handleInput}
             className={styles.formInput}
             type="text"
             name="name"
-            value={this.state.name}
+            value={name}
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
@@ -45,11 +49,11 @@ export class FormAddContact extends Component {
         <div className={styles.formItem}>
           <h3 className={styles.formTitle}>Number</h3>
           <input
-            onChange={this.handleInput}
+            onChange={handleInput}
             className={styles.formInput}
             type="tel"
             name="number"
-            value={this.state.number}
+            value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
@@ -61,4 +65,6 @@ export class FormAddContact extends Component {
       </form>
     );
   }
+FormAddContact.propTypes = {
+  addNewContact: PropTypes.func.isRequired
 }

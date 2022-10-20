@@ -1,18 +1,22 @@
 import styles from '../FilterContacts/Filter.module.css';
 import PropTypes from 'prop-types';
 
-export const Input = ({ handleInput }) => {
+export const Input = ({ filterContact }) => {
+  const onChange = (e) => {
+    filterContact(e.target.value)
+  }
+
   return (
     <div className={styles.filter}>
       <p className={styles.filterTxt}>Find contacts by name</p>
       <input
         className={styles.filterInput}
         name="filter"
-        onChange={handleInput}
+        onChange={onChange}
       />
     </div>
   );
 };
 Input.propTypes = {
-  handleInput: PropTypes.func.isRequired,
+  filterContact: PropTypes.func.isRequired,
 };
